@@ -100,7 +100,7 @@ func (d *TradeDisplayManager) FormatTrade(trade models.TradeEntry, index int) st
 		symbol = trade.CurrencyType
 	}
 
-	formattedTrade := fmt.Sprintf("[%d] %s %s > %s&#x0a;@%s%s",
+	formattedTrade := fmt.Sprintf("[%d] %s %s > %s&#x0a;@%s %s",
 		index, // Add an index to uniquely identify the trade
 		currencyStr,
 		currencyName,
