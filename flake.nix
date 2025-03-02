@@ -6,10 +6,45 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
-      in {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        fs = pkgs.lib.fileset;
+      in
+      {
+        packages = pkgs.buildGoModule rec {
+          pname = "hypr-exiled";
+          version = "0.4.1";
+          src = ./.;
+          subPackages = [ "cmd/hypr-exiled" ];
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+          ];
+          buildInputs = with pkgs; [
+            alsa-lib
+            xorg.libX11.dev
+            xorg.libXi
+            xorg.libxcb
+            xorg.libXfixes
+            xorg.libXext
+            xorg.libXtst
+          ];
+          proxyVendor = true;
+          vendorHash = "sha256-mG+aTsYvJ3Hu/CQW5Q80UV4BUDicVyzA25MC3b3pOhg=";
+
+          meta = {
+            description = "A Hyprland-focused trade manager for Path of Exile 1 and 2 with Rofi and IPC commands";
+            homepage = "https://github.com/GreenTheColour1/hypr-exiled";
+            platforms = pkgs.lib.platforms.linux;
+          };
+        };
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             # Go
@@ -25,6 +60,8 @@
             xorg.libXext
             xorg.libXtst
 
+            gcc
+
             rofi
             pkg-config
             alsa-lib
@@ -37,7 +74,12 @@
             echo "Ready to build with: go build -o hypr-exiled ./cmd/hypr-exiled"
           '';
         };
-      }) // {
-        targetSystems = [ "aarch64-linux" "x86_64-linux" ];
-      };
+      }
+    )
+    // {
+      targetSystems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+    };
 }
