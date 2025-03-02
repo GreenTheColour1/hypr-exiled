@@ -19,10 +19,19 @@
         fs = pkgs.lib.fileset;
       in
       {
-        packages = pkgs.buildGoModule rec {
+        packages = pkgs.buildGoModule {
           pname = "hypr-exiled";
           version = "0.4.1";
-          src = ./.;
+          src = fs.toSource {
+            root = ./.;
+            fileset = fs.unions [
+              ./cmd/hypr-exiled
+              ./internal
+              ./pkg
+              ./go.mod
+              ./go.sum
+            ];
+          };
           subPackages = [ "cmd/hypr-exiled" ];
           nativeBuildInputs = with pkgs; [
             pkg-config
@@ -35,6 +44,9 @@
             xorg.libXfixes
             xorg.libXext
             xorg.libXtst
+          ];
+          runtimeDeps = with pkgs; [
+            rofi
           ];
           proxyVendor = true;
           vendorHash = "sha256-mG+aTsYvJ3Hu/CQW5Q80UV4BUDicVyzA25MC3b3pOhg=";
