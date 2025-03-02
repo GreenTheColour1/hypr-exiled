@@ -21,8 +21,8 @@ func DefaultConfig(log *logger.Logger) (*Config, error) {
 	config := &Config{
 		poeLogPath: logPath,
 		triggers: map[string]string{
-			"incoming_trade": `\[INFO Client \d+\] @From ([^:]+): Hi, I would like to buy your ([^,]+(?:,[^,]+)*) listed for (\d+(?:\.\d+)?) ([^ ]+) in ([^\(]+) \(stash tab "([^"]+)"; position: left (\d+), top (\d+)\)`,
-			"outgoing_trade": `\[INFO Client \d+\] @To ([^:]+): Hi, I would like to buy your ([^,]+(?:,[^,]+)*) listed for (\d+(?:\.\d+)?) ([^ ]+) in ([^\(]+) \(stash tab "([^"]+)"; position: left (\d+), top (\d+)\)`,
+			"incoming_trade": `\[INFO Client \d+\] @From (?:<.*> |)(\w+): Hi, I would like to buy your ([^,]+(?:,[^,]+)*) listed for (\d+(?:\.\d+)?) ([^ ]+) in ([^\(]+) \(stash tab "([^"]+)"; position: left (\d+), top (\d+)\)`,
+			"outgoing_trade": `\[INFO Client \d+\] @To (?:<.*> |)(\w+): Hi, I would like to buy your ([^,]+(?:,[^,]+)*) listed for (\d+(?:\.\d+)?) ([^ ]+) in ([^\(]+) \(stash tab "([^"]+)"; position: left (\d+), top (\d+)\)`,
 		},
 		commands: map[string][]string{
 			"party":  {"/invite {player}"},
