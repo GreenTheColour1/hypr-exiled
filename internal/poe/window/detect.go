@@ -37,7 +37,7 @@ func NewDetector() *Detector {
 
 	return &Detector{
 		hyprExiledSessionStart: time.Now(),
-		windowClasses:          []string{"steam_app_2694490"},
+		windowClasses:          []string{"steam_app_2694490", "steam_app_238960"},
 		wmManager:              manager,
 		stopChan:               make(chan struct{}),
 	}
