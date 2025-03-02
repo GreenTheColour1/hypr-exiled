@@ -1,5 +1,8 @@
 # Hypr Exiled 🎮⚡
 
+> All credit goes to [gfsd3v](https://github.com/gfsd3v) for their code, I just modified it slightly to work with POE1.
+> This is also my first time doing anything with Go and I'm also fairly inexperienced with nix packaging so if you have any tips please let me know
+
 A lightweight Path of Exile 2 trade manager built for keyboard power users and tiling WM's.
 
 https://github.com/user-attachments/assets/5ea48204-d9b2-4690-8db5-b96446b869f4
@@ -91,6 +94,22 @@ sudo pacman -S go alsa-lib rofi libx11 libxtst libxi libxcb xdotool
 
 # Build
 go build -o hypr-exiled ./cmd/hypr-exiled
+```
+
+## Option 3: Nix Flakes
+
+Add the following to your flake.nix
+```nix
+inputs = {
+  hypr-exiled.url = "github:GreenTheColour1/hypr-exiled";
+}
+```
+Then add the following to either `environment.systemPackages` or `home.packages`
+```nix
+# If you are not using HomeManager relace this with environment.systemPackages
+home.packages = [
+  inputs.hypr-exiled.packages.x86_64-linux
+]
 ```
 
 ## Basic Usage
